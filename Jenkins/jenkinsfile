@@ -1,0 +1,52 @@
+pipeline {
+     agent {
+         label 'myslave'
+     }
+        environment {
+        registry = "bikash725/mediawiki"
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+    }
+    stages {
+
+        stage ('checkout') {
+            steps {
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/bikash199821/Mediawiki-Final.git']]])
+            }
+        }
+       
+        stage ('Build docker image') {
+            steps {
+                script {
+                dockerImage = docker.build registry + ":V$BUILD_NUMBER"
+                }
+            }
+        }
+       
+         // Uploading Docker images into Docker Hub
+    stage('Upload Image') {
+     steps{   
+         script {
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push("V$BUILD_NUMBER")
+	    dockerImage.push('latest')
+            }
+        }
+      }
+    }
+   
+    stage ('K8S Deploy') {
+        steps {
+            script {
+                kubernetesDeploy(
+                    configs: 'Mediawiki-Final/Kubernetes',
+                    kubeconfigId: 'K8S',
+                    enableConfigSubstitution: true
+                    )           
+               
+            }
+        }
+    }
+  
+    }  
+}
