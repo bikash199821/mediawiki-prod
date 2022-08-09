@@ -15,7 +15,7 @@ RUN wget  https://www-eu.apache.org/dist//httpd/httpd-2.4.54.tar.gz &&\
 RUN wget https://www.php.net/distributions/php-8.1.9.tar.gz &&\
     tar -xvzf php-8.1.9.tar.gz &&\
     rm -rf php-8.1.9.tar.gz &&\
-    cd php-8.1.9 && ./configure --with-apxs2=/usr/local/apache2/bin/apxs --enable-mbstring --enable-mysqlnd --with-mysqli && make clean && make && make install 
+    cd php-8.1.9 && ./configure --with-apxs2=/usr/local/apache2/bin/apxs --enable-mysqlnd --with-mysqli && make clean && make && make install 
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 
 #installing WIKIMEDIA
