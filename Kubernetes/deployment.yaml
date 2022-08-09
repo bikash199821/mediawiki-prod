@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wikimedia-deployment
+  labels:
+    app: wikimedia
+spec:
+  selector:
+    matchLabels:
+      app: wikimedia
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wikimedia
+        type: web
+    spec:
+      containers:
+        - name: wikimedia
+          image: bitnami/mediawiki:latest
+          ports:
+            - containerPort: 80
+              name: httpd-port
+          env:
+            - name: ALLOW_EMPTY_PASSWORD
+              value: yes
+            - name: MEDIAWIKI_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: MARIADB_USER
+            - name: MEDIAWIKI_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: MARIADB_PASSWORD
+            - name: MEDIAWIKI_DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: MARIADB_DATABASE
+                     

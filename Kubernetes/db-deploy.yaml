@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-deployment
+  labels:
+    app: wikimedia-db
+    type: database
+spec:
+  selector:
+    matchLabels:
+     app: wikimedia-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wikimedia-db
+        type: database
+    spec:
+      containers:
+        - name: wikimedia-db
+          image: bitnami/mariadb:latest       
+          ports:
+            - containerPort: 3306
+              name: db-port
+          env:
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "yes"
+            - name: MARIADB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: MEDIAWIKI_DATABASE_NAME
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: MEDIAWIKI_DATABASE_NAME
+            - name: MARIADB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: MEDIAWIKI_DATABASE_NAME
+          volumeMounts:
+          - name: wordpress-persistent-storage
+            mountPath: /bitnami/mariadb
+      volumes:
+      - name: wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: azure-managed-disk-pvc	
