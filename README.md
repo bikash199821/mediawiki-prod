@@ -19,9 +19,9 @@ It Contains Manifest files,Which will be used to creating our object like Deploy
 # Prerequisites
 1. Install Terraform and git on the machine.
 2. Account setup in Azure.
-3. Kubectl is installed on your machine.
+3. Visual studio Code is installed.
 4. Azure cli is installed.
-5. Install ruby and ruby json.
+
 
 
 # Steps
