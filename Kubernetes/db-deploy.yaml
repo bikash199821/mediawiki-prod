@@ -8,7 +8,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-     app: wikimedia-db
+      app: wikimedia-db
   replicas: 1
   template:
     metadata:
@@ -18,32 +18,35 @@ spec:
     spec:
       containers:
         - name: wikimedia-db
-          image: bitnami/mariadb:latest       
+          image: mariadb
           ports:
             - containerPort: 3306
               name: db-port
           env:
-            - name: ALLOW_EMPTY_PASSWORD
-              value: "yes"
-            - name: MARIADB_USER
+            - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
                   name: mariadb-secret
-                  key: MEDIAWIKI_DATABASE_NAME
-            - name: MARIADB_PASSWORD
+                  key: dbuser
+            - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
                   name: mariadb-secret
-                  key: MEDIAWIKI_DATABASE_NAME
-            - name: MARIADB_DATABASE
+                  key: dbname
+            - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mariadb-secret
-                  key: MEDIAWIKI_DATABASE_NAME
+                  key: dbpassword
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: dbrootpassword
           volumeMounts:
-          - name: wordpress-persistent-storage
-            mountPath: /bitnami/mariadb
+          - name: mediawiki-storage
+            mountPath: /var/lib/mysql
       volumes:
-      - name: wordpress-persistent-storage
+      - name: mediawiki-storage
         persistentVolumeClaim:
-          claimName: azure-managed-disk-pvc	
+          claimName: azure-managed-disk-pvc
