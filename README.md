@@ -65,6 +65,7 @@ sudo cat ~/.kube/config -->Enter ID as K8S and choose enter directly and paste t
 
 # Access Mediawiki App from Internet.
 Once build is successful, go to browser and enter External-IP of LoadBalancer services.
+You can access the application at http://{public-ip}/wiki
 
     
 
