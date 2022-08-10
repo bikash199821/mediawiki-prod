@@ -1,9 +1,9 @@
 FROM centos:7
-#installing required packages 
-RUN yum install apr-util-devel gcc pcre-devel libxml2-devel wget curl gcc-devel curl-devel httpd-devel sqlite-devel oniguruma-devel make -y 
+#installing required packages
+RUN yum install apr-util-devel gcc pcre-devel libxml2-devel wget curl gcc-devel curl-devel httpd-devel sqlite-devel oniguruma-devel make -y
 
 WORKDIR /root
-#installing httpd service 
+#installing httpd service
 RUN wget  https://www-eu.apache.org/dist//httpd/httpd-2.4.54.tar.gz &&\
               tar -xvxf httpd-2.4.54.tar.gz &&\
               rm -rf httpd-2.4.54.tar.gz &&\
@@ -12,10 +12,10 @@ RUN wget  https://www-eu.apache.org/dist//httpd/httpd-2.4.54.tar.gz &&\
 
 #installing php7
 
-RUN wget https://www.php.net/distributions/php-8.1.9.tar.gz &&\
-    tar -xvzf php-8.1.9.tar.gz &&\
-    rm -rf php-8.1.9.tar.gz &&\
-    cd php-8.1.9 && ./configure --with-apxs2=/usr/local/apache2/bin/apxs --enable-mysqlnd --with-mysqli && make clean && make && make install 
+RUN wget https://www.php.net/distributions/php-7.4.28.tar.gz &&\
+    tar -xvzf php-7.4.28.tar.gz &&\
+    rm -rf php-7.4.28.tar.gz &&\
+    cd php-7.4.28 && ./configure --with-apxs2=/usr/local/apache2/bin/apxs --enable-mysqlnd --with-mysqli && make clean && make && make install
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 
 #installing WIKIMEDIA
@@ -28,3 +28,4 @@ RUN wget https://releases.wikimedia.org/mediawiki/1.38/mediawiki-1.38.2.tar.gz &
 
 CMD /usr/local/apache2/bin/apachectl -DFOREGROUND
 EXPOSE 80
+
