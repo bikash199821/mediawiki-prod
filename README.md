@@ -54,13 +54,19 @@ sudo cat ~/.kube/config -->Enter ID as K8S and choose enter directly and paste t
 
 # Verify deployments to AKS cluster
 ```bash
-1.  kubectl get pods
+1.  az login
 ```
 ```bash
-2.  kubectl get deployments
+2.  az aks get-credentials --resource-group terraform-aks-dev2 --name terraform-aks-dev2-cluster --overwrite-existing
 ```
 ```bash
-3.  kubectl get services
+3.  kubectl get pods
+```
+```bash
+4.  kubectl get deployments
+```
+```bash
+5.  kubectl get svc
 ```
 
 # Access Mediawiki App from Internet.
