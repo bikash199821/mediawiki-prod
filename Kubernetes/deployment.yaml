@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: wikimedia
-          image: bikash725/mediawiki:latest
+          image: bikash725/mediawiki:1.38.2
           ports:
             - containerPort: 80
               name: httpd-port
