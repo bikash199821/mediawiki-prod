@@ -15,7 +15,7 @@ RUN wget  https://www-eu.apache.org/dist//httpd/httpd-2.4.54.tar.gz &&\
 RUN wget https://www.php.net/distributions/php-7.4.28.tar.gz &&\
     tar -xvzf php-7.4.28.tar.gz &&\
     rm -rf php-7.4.28.tar.gz &&\
-    cd php-7.4.28 && ./configure --with-apxs2=/usr/local/apache2/bin/apxs --enable-mysqlnd --with-mysqli && make clean && make && make install
+    cd php-7.4.28 && ./configure --with-apxs2=/usr/local/apache2/bin/apxs --disable-mbregex --enable-mbstring --enable-mysqlnd --with-mysqli && make clean && make && make install
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 
 #installing WIKIMEDIA
@@ -28,4 +28,5 @@ RUN wget https://releases.wikimedia.org/mediawiki/1.38/mediawiki-1.38.2.tar.gz &
 
 CMD /usr/local/apache2/bin/apachectl -DFOREGROUND
 EXPOSE 80
+
 
